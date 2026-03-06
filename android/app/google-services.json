@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "798209874292",
+    "project_id": "fadaroapp",
+    "storage_bucket": "fadaroapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:798209874292:android:52f756016130bf365cb421",
+        "android_client_info": {
+          "package_name": "com.example.adaro1_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "798209874292-6r7dqu1s8dk5stgi4km7rdjpesbetaqb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.adaro1_app",
+            "certificate_hash": "a8d2adff4b5b9f1fecff74bbe83f663ca9dd2f36"
+          }
+        },
+        {
+          "client_id": "798209874292-j2oduf5t59ms55disusp1237ar2lesso.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZeMgxjgh1MG6dtvEGuzXpr8qjDSrQe1M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "798209874292-j2oduf5t59ms55disusp1237ar2lesso.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "798209874292-5g2k2bd3gfkjkbricsf2rve59ul1t3q0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.adaro1App"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:798209874292:android:8ccc944386af8f4d5cb421",
+        "android_client_info": {
+          "package_name": "com.example.adaroapp_admin_panel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "798209874292-j2oduf5t59ms55disusp1237ar2lesso.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZeMgxjgh1MG6dtvEGuzXpr8qjDSrQe1M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "798209874292-j2oduf5t59ms55disusp1237ar2lesso.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "798209874292-5g2k2bd3gfkjkbricsf2rve59ul1t3q0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.adaro1App"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

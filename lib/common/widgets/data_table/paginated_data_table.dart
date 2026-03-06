@@ -1,0 +1,84 @@
+import 'package:data_table_2/data_table_2.dart';
+import 'package:flutter/material.dart';
+
+import '../../../utils/constants/sizes.dart';
+
+/// Custom PaginatedDataTable widget with additional features
+class TPaginatedDataTable extends StatelessWidget {
+  const TPaginatedDataTable({
+    super.key,
+    required this.columns,
+    required this.source,
+    this.rowsPerPage = 10,
+    this.tableHeight = 760,
+    this.onPageChanged,
+    this.sortColumnIndex,
+    this.dataRowHeight = TSizes.xl * 2,
+    this.sortAscending = true,
+    this.minWidth = 1000,
+  });
+
+  /// Whether to sort the DataTable in ascending or descending order.
+  final bool sortAscending;
+
+  /// Index of the column to sort by.
+  final int? sortColumnIndex;
+
+  /// Number of rows to display per page.
+  final int rowsPerPage;
+
+  /// Data source for the DataTable.
+  final DataTableSource source;
+
+  /// List of columns for the DataTable.
+  final List<DataColumn> columns;
+
+  /// Callback function to handle page changes.
+  final Function(int)? onPageChanged;
+
+  /// Height of each data row in the DataTable.
+  final double dataRowHeight;
+
+  /// Height of the entire DataTable.
+  final double tableHeight;
+
+  /// Minimum Width of the entire DataTable.
+  final double? minWidth;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      // Set the dynamic height of the PaginatedDataTable
+      height: tableHeight,
+      child:  Theme(
+          data: Theme.of(context).copyWith(
+        cardTheme: const CardThemeData(
+          color: Colors.white,
+          elevation: 0,
+        ),
+      ),
+          child: PaginatedDataTable2(
+              source: source,
+
+            /// Columns and Rows
+            columns: columns,
+            columnSpacing: 12,
+            minWidth: minWidth,
+            dividerThickness: 0,
+            horizontalMargin: 12,
+            rowsPerPage: rowsPerPage,
+            dataRowHeight: dataRowHeight,
+
+            /// Checkbox
+            showCheckboxColumn: true,
+
+            /// Pagination
+            showFirstLastButtons: true,
+            onPageChanged: onPageChanged,
+            renderEmptyRowsInTheEnd: false,
+            onRowsPerPageChanged: (noOfRows) {},
+          )
+      ),
+    );
+  }
+}
