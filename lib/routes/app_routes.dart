@@ -10,6 +10,9 @@ import 'package:get/get.dart';
 
 import '../features/authentication/screens/login/login.dart';
 
+import '../features/shop/screens/banner/all_banner/banners.dart';
+import '../features/shop/screens/banner/create_banner/create_banner.dart';
+import '../features/shop/screens/banner/edit_banner/edit_banner.dart';
 import '../features/shop/screens/dashboard/dashboard_screen.dart';
 
 
@@ -21,6 +24,9 @@ class TAppRoute {
     GetPage(name: TRoutes.dashboard, page: () => const DashboardScreen(), middlewares: [TRouteMiddleware()]),
     GetPage(name: TRoutes.media, page: () => const MediaScreen(), middlewares: [TRouteMiddleware()]),
 
-
+    // Banners
+    GetPage(name: TRoutes.banners, page: () => const BannersScreen(), middlewares: [TRouteMiddleware()]),
+    GetPage(name: TRoutes.createBanner, page: () => const CreateBannerScreen(), middlewares: [TRouteMiddleware()]),
+    GetPage(name: TRoutes.editBanner, page: () => const EditBannerScreen(), middlewares: [TRouteMiddleware()]),
   ];
 }
