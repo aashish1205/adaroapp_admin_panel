@@ -4,6 +4,8 @@ import 'dart:typed_data';
 
 import 'package:adaroapp_admin_panel/common/widgets/loaders/circular_loader.dart';
 import 'package:adaroapp_admin_panel/data/repositories/media/media_repository.dart';
+import 'package:adaroapp_admin_panel/features/media/screens/widgets/media_content.dart';
+import 'package:adaroapp_admin_panel/features/media/screens/widgets/media_uploader.dart';
 import 'package:adaroapp_admin_panel/models/image_model.dart';
 import 'package:adaroapp_admin_panel/utils/constants/enums.dart';
 import 'package:adaroapp_admin_panel/utils/popups/dialogs.dart';
@@ -13,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
 import 'package:get/get.dart';
 
+import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/image_strings.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/constants/text_strings.dart';
@@ -345,6 +348,36 @@ class MediaController extends GetxController {
       TFullScreenLoader.stopLoading();
       TLoaders.errorSnackBar(title: 'Oh Snap' , message: e.toString());
     }
+  }
+
+  // Images Selection Bottom Sheet
+  Future<List<ImageModel>?> selectImagesFromMedia({List<String> ? selectedUrls, bool allowSelection = true, bool multipleSelection = false}) async{
+    showImagesUploaderSection.value = true;
+    
+    List<ImageModel>? selectedImages =  await Get.bottomSheet<List<ImageModel>>(
+      isScrollControlled: true,
+      backgroundColor: TColors.primaryBackground,
+      FractionallySizedBox(
+        heightFactor: 1,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(TSizes.defaultSpace),
+          child: Column(
+            children: [
+              const MediaUploader(),
+              MediaContent(
+                  allowSelection: allowSelection,
+                  alreadySelectedUrls: selectedUrls ?? [],
+                  allowMultipleSelection: multipleSelection,
+              ),
+            ],
+          ),
+          ),
+        ),
+      )
+    );
+
+    return selectedImages;
   }
 
 

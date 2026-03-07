@@ -1,0 +1,47 @@
+import 'package:adaroapp_admin_panel/features/media/controllers/media_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../../../models/image_model.dart';
+
+class ProductImagesController extends GetxController {
+  static ProductImagesController get instance => Get.find();
+
+  // Rx Observation for the selected thumbnail image
+  Rx<String?> selectedThumbnailImageUrl = Rx<String?>(null);
+
+  // Lists to store additional product images
+  final RxList<String> additionalProductImagesUrls = <String>[].obs;
+
+  /// Pick Thumbnail Image from Media
+  void selectThumbnailImage() async {
+    final controller = Get.put(MediaController());
+    List<ImageModel>? selectedImages = await controller.selectImagesFromMedia();
+
+    // Handle the selected images
+    if (selectedImages != null && selectedImages.isNotEmpty) {
+      // Set the selected image to the main image or perform any other action
+      ImageModel selectedImage = selectedImages.first;
+      // Update the main image using the selectedImage
+      selectedThumbnailImageUrl.value = selectedImage.url;
+    }
+  }
+
+
+  /// Pick Multiple images from media
+  void selectMultipleProductImages() async {
+    final controller = Get.put(MediaController());
+    final  selectedImages = await controller.selectImagesFromMedia(multipleSelection: true, selectedUrls: additionalProductImagesUrls);
+
+    // handle the selected images
+    if (selectedImages != null && selectedImages.isNotEmpty) {
+      additionalProductImagesUrls.assignAll(selectedImages.map((e) => e.url));
+    }
+  }
+
+  /// FUnctions to remove Product image
+  Future<void> removeImage(int index) async {
+    additionalProductImagesUrls.removeAt(index);
+  }
+
+}
