@@ -10,7 +10,7 @@ class BannerController extends TBaseController<BannerModel> {
 
   @override
   Future<void> deleteItem(BannerModel item) async {
-    await _bannerRepository.deleteBanner((item.id ?? '') as BannerModel);
+    await _bannerRepository.deleteBanner(item.id ?? '');
   }
 
   @override

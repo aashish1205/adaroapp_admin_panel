@@ -27,7 +27,7 @@ class MediaDesktopScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 /// BreadCrumbs
-                TBreadCrumbsWithHeading(heading: 'Media', breadcrumbItems: [TRoutes.login,'Media Screen']),
+                TBreadCrumbsWithHeading(heading: 'Media', breadcrumbItems: ['Media']),
 
                 SizedBox(
                   width: TSizes.buttonWidth * 1.5,

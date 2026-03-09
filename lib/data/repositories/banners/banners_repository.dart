@@ -65,9 +65,9 @@ class BannerRepository extends GetxController {
   }
   
   // Delete Banner from Firestore
-  Future<void> deleteBanner(BannerModel banner) async {
+  Future<void> deleteBanner(String bannerId) async {
     try {
-      await _db.collection("Banners").doc(banner.id).delete();
+      await _db.collection("Banners").doc(bannerId).delete();
     } on FirebaseException catch (e) {
       throw TFirebaseException(e.code).message;
     } on FormatException catch (_) {

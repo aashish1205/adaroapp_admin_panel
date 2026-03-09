@@ -67,7 +67,7 @@ class CreateBannerForm extends StatelessWidget {
             ),
             Obx(
               () => CheckboxMenuButton(
-                value: true,
+                value: controller.isActive.value,
                 onChanged: (value) =>
                     controller.isActive.value = value ?? false,
                 child: const Text('Active'),

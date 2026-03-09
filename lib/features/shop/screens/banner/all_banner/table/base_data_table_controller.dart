@@ -148,6 +148,8 @@ abstract class TBaseController<T> extends GetxController {
       // Delete Firestore Data
       await deleteItem(item);
 
+      removeItemFromLists(item);
+
       TFullScreenLoader.stopLoading();
       TLoaders.successSnackBar(
         title: 'Item Deleted',

@@ -27,9 +27,9 @@ class DashboardDesktopScreen extends StatelessWidget {
             children: [
               // Heading 
               Text('Dashboard', style: Theme.of(context).textTheme.headlineLarge),
-              ElevatedButton(onPressed: () => controller.selectThumbnailImage(), child: const Text('Select Single Image')),
-              const SizedBox(height: TSizes.spaceBtwSections),
-              ElevatedButton(onPressed: () => controller.selectMultipleProductImages(), child: const Text('Select Multiple Image')),
+             // ElevatedButton(onPressed: () => controller.selectThumbnailImage(), child: const Text('Select Single Image')),
+             // const SizedBox(height: TSizes.spaceBtwSections),
+             // ElevatedButton(onPressed: () => controller.selectMultipleProductImages(), child: const Text('Select Multiple Image')),
 
 
               const SizedBox(height: TSizes.spaceBtwSections),
