@@ -1,5 +1,5 @@
 import 'package:adaroapp_admin_panel/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
-import 'package:adaroapp_admin_panel/features/shop/screens/banner/edit_banner/widgets/edit_brand_form.dart';
+import 'package:adaroapp_admin_panel/features/shop/screens/banner/edit_banner/widgets/edit_banner_form.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../models/banner_model.dart';

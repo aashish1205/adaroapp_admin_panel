@@ -1,29 +1,37 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class BannerModel {
-  final String? imageUrl;
-  final String? targetScreen;
-  final bool active;
+  String? id;
+  String imageUrl;
+  String targetScreen;
+  bool active;
 
   BannerModel({
-    this.imageUrl,
-     this.targetScreen,
+    this.id,
+    required this.imageUrl,
+     required this.targetScreen,
     required this.active,
   });
 
   // Convert model to Map (for Firebase / APIs)
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
-      'imageUrl': imageUrl,
-      'targetScreen': targetScreen,
-      'active': active,
+      'ImageUrl': imageUrl,
+      'TargetScreen': targetScreen,
+      'Active': active,
     };
   }
 
   // Create model from Map
-  factory BannerModel.fromMap(Map<String, dynamic> map) {
+  factory BannerModel.fromSnapshot(DocumentSnapshot snapshot) {
+    final data = snapshot.data() as Map<String, dynamic>;
     return BannerModel(
-      imageUrl: map['imageUrl'],
-      targetScreen: map['targetScreen'] ?? '',
-      active: map['active'] ?? false,
+      id: snapshot.id,
+      imageUrl: data['ImageUrl'] ?? '',
+      targetScreen: data['TargetScreen'] ?? '',
+      active: data['Active'] ?? false,
     );
   }
+
+
 }

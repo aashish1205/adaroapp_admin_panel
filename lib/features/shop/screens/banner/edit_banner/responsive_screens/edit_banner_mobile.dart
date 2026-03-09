@@ -4,7 +4,7 @@ import '../../../../../../common/widgets/breadcrumbs/breadcrumb_with_heading.dar
 import '../../../../../../models/banner_model.dart';
 import '../../../../../../routes/routes.dart';
 import '../../../../../../utils/constants/sizes.dart';
-import '../widgets/edit_brand_form.dart';
+import '../widgets/edit_banner_form.dart';
 
 class EditBannerMobileScreen extends StatelessWidget {
   const EditBannerMobileScreen({super.key, required this.banner});

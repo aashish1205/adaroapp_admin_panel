@@ -1,22 +1,26 @@
 import 'package:adaroapp_admin_panel/common/widgets/containers/rounded_container.dart';
 import 'package:adaroapp_admin_panel/common/widgets/images/t_rounded_image.dart';
-import 'package:adaroapp_admin_panel/features/shop/controllers/banner/create_banner_controller.dart';
+import 'package:adaroapp_admin_panel/features/shop/controllers/banner/edit_banner_controller.dart';
 import 'package:adaroapp_admin_panel/routes/app_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../../../../../../models/banner_model.dart';
 import '../../../../../../utils/constants/colors.dart';
 import '../../../../../../utils/constants/enums.dart';
 import '../../../../../../utils/constants/image_strings.dart';
 import '../../../../../../utils/constants/sizes.dart';
 
-class CreateBannerForm extends StatelessWidget {
-  const CreateBannerForm({super.key});
+class EditBannerForm extends StatelessWidget {
+  const EditBannerForm({super.key, required this.banner});
+
+  final BannerModel banner;
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(CreateBannerController());
+    final controller = Get.put(EditBannerController());
+    controller.init(banner);
     return TRoundedContainer(
       width: 500,
       padding: const EdgeInsets.all(TSizes.defaultSpace),
@@ -28,7 +32,7 @@ class CreateBannerForm extends StatelessWidget {
             // Heading
             const SizedBox(height: TSizes.sm),
             Text(
-              'Create New Banner',
+              'Update Banner',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: TSizes.spaceBtwSections),
@@ -37,19 +41,16 @@ class CreateBannerForm extends StatelessWidget {
             Column(
               children: [
                 Obx(
-                  () => GestureDetector(
-                    onTap: () => controller.pickImage(),
-                    child: TRoundedImage(
-                      width: 400,
-                      height: 200,
-                      backgroundColor: TColors.primaryBackground,
-                      image: controller.imageURL.value.isNotEmpty
-                          ? controller.imageURL.value
-                          : TImages.defaultImage,
-                      imageType: controller.imageURL.value.isNotEmpty
-                          ? ImageType.network
-                          : ImageType.asset,
-                    ),
+                  () => TRoundedImage(
+                    width: 400,
+                    height: 200,
+                    backgroundColor: TColors.primaryBackground,
+                    image: controller.imageURL.value.isNotEmpty
+                        ? controller.imageURL.value
+                        : TImages.defaultImage,
+                    imageType: controller.imageURL.value.isNotEmpty
+                        ? ImageType.network
+                        : ImageType.asset,
                   ),
                 ),
                 const SizedBox(height: TSizes.spaceBtwItems),
@@ -61,39 +62,37 @@ class CreateBannerForm extends StatelessWidget {
             ),
             const SizedBox(height: TSizes.spaceBtwInputFields),
 
-            Text(
-              'Make your Banner Active or Inactive',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
+
+            Text('Make your Banner Active or Inactive', style: Theme.of(context).textTheme.bodyMedium),
             Obx(
               () => CheckboxMenuButton(
-                value: true,
-                onChanged: (value) =>
-                    controller.isActive.value = value ?? false,
+                value: controller.isActive.value,
+                onChanged: (value) => controller.isActive.value = value ?? false,
                 child: const Text('Active'),
               ),
             ),
             const SizedBox(height: TSizes.spaceBtwInputFields),
 
+
             // Dropdown MEnu Screens
             Obx(
-                    () {
-              return DropdownButton<String>(
-                value: controller.targetScreen.value,
-                onChanged: (String? newValue) => controller.targetScreen.value = newValue!,
-                items: AppScreens.allAppScreenItems.map<DropdownMenuItem<String>>((value) {
-                  return DropdownMenuItem<String>(value: value, child: Text(value));
-                }).toList(),
-              );
-            }),
+              () {
+                return DropdownButton<String>(
+                  value: controller.targetScreen.value,
+                  onChanged: (String? newValue) => controller.targetScreen.value = newValue!,
+                  items: AppScreens.allAppScreenItems.map<DropdownMenuItem<String>>((value){
+                    return DropdownMenuItem<String>(value : value,child: Text(value));
+                  }).toList(),
+                );
+              }
+            ),
             const SizedBox(height: TSizes.spaceBtwInputFields * 2),
-
 
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => controller.createBanner(),
-                child: const Text('Create'),
+                onPressed: () => controller.updateBanner(banner),
+                child: const Text('Update'),
               ),
             ),
             const SizedBox(height: TSizes.spaceBtwInputFields * 2),

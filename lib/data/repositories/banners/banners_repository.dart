@@ -1,0 +1,81 @@
+import 'dart:io';
+import 'dart:js_interop';
+
+import 'package:adaroapp_admin_panel/models/banner_model.dart';
+import 'package:adaroapp_admin_panel/utils/exceptions/firebase_exceptions.dart';
+import 'package:adaroapp_admin_panel/utils/exceptions/format_exceptions.dart';
+import 'package:adaroapp_admin_panel/utils/exceptions/platform_exceptions.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+
+class BannerRepository extends GetxController {
+  static BannerRepository get instance => Get.find();
+
+  // Firebase Firestore instance
+  final _db = FirebaseFirestore.instance;
+
+  // Get all banners from Firestore
+  Future<List<BannerModel>> getAllBanners() async {
+    try {
+      final snapshot = await _db.collection("Banners").get();
+      final result = snapshot.docs.map((e) => BannerModel.fromSnapshot(e)).toList();
+      return result;
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } on SocketException catch (e) {
+      throw e.message;
+    } on PlatformException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      throw 'Something Went Wrong! Please try again.';
+    }
+  }
+
+  // Create a new banner in Firestore
+  Future<String> createBanner(BannerModel banner) async {
+    try {
+      final result = await _db.collection("Banners").add(banner.toJson());
+      return result.id;
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something Went wrong. Please try again';
+    }
+  }
+
+  // Update banner in firestore
+  Future<void> updateBanner(BannerModel banner) async {
+    try {
+      await _db.collection("Banners").doc(banner.id).update(banner.toJson());
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something Went wrong. Please try again';
+    }
+  }
+  
+  // Delete Banner from Firestore
+  Future<void> deleteBanner(BannerModel banner) async {
+    try {
+      await _db.collection("Banners").doc(banner.id).delete();
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something Went wrong. Please try again';
+    }
+  }
+}
