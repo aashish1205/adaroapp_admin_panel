@@ -3,6 +3,8 @@
 import 'package:adaroapp_admin_panel/features/authentication/screens/forget_password/forget_password.dart';
 import 'package:adaroapp_admin_panel/features/authentication/screens/reset_password/reset_password.dart';
 import 'package:adaroapp_admin_panel/features/media/media.dart';
+import 'package:adaroapp_admin_panel/features/shop/screens/customer/all_customers/customers.dart';
+import 'package:adaroapp_admin_panel/features/shop/screens/customer/customer_detail/customer_detail.dart';
 import 'package:adaroapp_admin_panel/routes/routes.dart';
 import 'package:adaroapp_admin_panel/routes/routes_middleware.dart';
 
@@ -28,5 +30,8 @@ class TAppRoute {
     GetPage(name: TRoutes.banners, page: () => const BannersScreen(), middlewares: [TRouteMiddleware()]),
     GetPage(name: TRoutes.createBanner, page: () => const CreateBannerScreen(), middlewares: [TRouteMiddleware()]),
     GetPage(name: TRoutes.editBanner, page: () => const EditBannerScreen(), middlewares: [TRouteMiddleware()]),
+    GetPage(name: TRoutes.customers, page: () => const CustomersScreen(), middlewares: [TRouteMiddleware()]),
+    GetPage(name: TRoutes.customerDetails, page: () => const CustomerDetailScreen(), middlewares: [TRouteMiddleware()]),
+
   ];
 }

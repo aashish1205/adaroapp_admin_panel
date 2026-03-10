@@ -37,5 +37,6 @@ class TRoutes {
   static const customerDetails = '/customerDetails';
 
   static const orders = '/orders';
+  static const orderDetails = '/orderDetails';
 
 }
