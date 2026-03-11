@@ -15,11 +15,11 @@ class DashboardController extends GetxController {
 
   /// ---Order
   static final List<OrderModel> orders = [
-    OrderModel(id: 'AWT0012', status: OrderStatus.processing, totalAmount: 265, orderDate: DateTime(2026, 2, 8), deliveryDate: DateTime(2026, 2, 8)),
-    OrderModel(id: 'AWT0012', status: OrderStatus.processing, totalAmount: 665, orderDate: DateTime(2026, 2, 8), deliveryDate: DateTime(2026, 2, 8)),
-    OrderModel(id: 'AWT0012', status: OrderStatus.cancelled, totalAmount: 365, orderDate: DateTime(2026, 2, 8), deliveryDate: DateTime(2026, 2, 8)),
-    OrderModel(id: 'AWT0012', status: OrderStatus.pending, totalAmount: 165, orderDate: DateTime(2026,2, 9), deliveryDate: DateTime(2026, 2, 9)),
-    OrderModel(id: 'AWT0012', status: OrderStatus.delivered, totalAmount: 465, orderDate: DateTime(2026, 2, 9), deliveryDate: DateTime(2026, 2, 9)),
+    OrderModel(id: 'AWT0012', status: OrderStatus.processing, totalAmount: 265, orderDate: DateTime(2026, 2, 8), deliveryDate: DateTime(2026, 2, 8), items: []),
+    OrderModel(id: 'AWT0012', status: OrderStatus.processing, totalAmount: 665, orderDate: DateTime(2026, 2, 8), deliveryDate: DateTime(2026, 2, 8), items: []),
+    OrderModel(id: 'AWT0012', status: OrderStatus.cancelled, totalAmount: 365, orderDate: DateTime(2026, 2, 8), deliveryDate: DateTime(2026, 2, 8), items: []),
+    OrderModel(id: 'AWT0012', status: OrderStatus.pending, totalAmount: 165, orderDate: DateTime(2026,2, 9), deliveryDate: DateTime(2026, 2, 9), items: []),
+    OrderModel(id: 'AWT0012', status: OrderStatus.delivered, totalAmount: 465, orderDate: DateTime(2026, 2, 9), deliveryDate: DateTime(2026, 2, 9), items: []),
 
   ];
 

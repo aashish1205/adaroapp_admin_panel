@@ -1,10 +1,12 @@
 import 'package:adaroapp_admin_panel/common/widgets/containers/rounded_container.dart';
+import 'package:adaroapp_admin_panel/common/widgets/icons/table_action_icon_buttons.dart';
 import 'package:adaroapp_admin_panel/features/shop/controllers/dashboard/dashboard_controller.dart';
 import 'package:adaroapp_admin_panel/utils/helpers/helper_functions.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../../routes/routes.dart';
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/sizes.dart';
 
@@ -34,6 +36,16 @@ class OrderRows extends DataTableSource {
         )
       ),
       DataCell(Text('₹${order.totalAmount}')),
+
+       // Action Column
+      DataCell(
+        TTableActionButtons(
+          view: true,
+          edit: false,
+          onViewPressed: () => Get.toNamed(TRoutes.orderDetails, arguments: order,),
+          onDeletePressed: () {},
+        )
+      ),
     ]);
   }
 

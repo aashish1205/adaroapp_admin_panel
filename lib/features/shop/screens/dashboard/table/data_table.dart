@@ -20,6 +20,7 @@ class DashboardOrderTable extends StatelessWidget {
           DataColumn2(label: Text('Items')),
           DataColumn2(label: Text('Status')),
           DataColumn2(label: Text('Amount')),
+          DataColumn2(label: Text('Action')),
         ],
         source: OrderRows()
     );
