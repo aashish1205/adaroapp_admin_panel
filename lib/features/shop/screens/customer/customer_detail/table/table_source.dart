@@ -53,7 +53,7 @@ class CustomerOrdersRows extends DataTableSource {
             ), // Text
           ), // TRoundedContainer
         ), // DataCell
-        const DataCell(Text('\$$totalAmount')),
+        const DataCell(Text('\₹$totalAmount')),
       ],
     ); // DataRow2
   }

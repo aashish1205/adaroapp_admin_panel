@@ -15,7 +15,11 @@ class OrderRows extends DataTableSource {
   @override
   DataRow? getRow(int index) {
     final order = DashboardController.orders[index];
-    return DataRow2(cells: [
+    return DataRow2(
+      onTap: () => Get.toNamed(TRoutes.orderDetails, arguments: order),
+        selected: false,
+        onSelectChanged: (value){},
+        cells: [
       DataCell(
         Text(
           order.id,
