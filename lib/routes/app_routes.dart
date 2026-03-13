@@ -2,6 +2,7 @@
 
 import 'package:adaroapp_admin_panel/features/authentication/screens/forget_password/forget_password.dart';
 import 'package:adaroapp_admin_panel/features/authentication/screens/reset_password/reset_password.dart';
+import 'package:adaroapp_admin_panel/features/consultation/consultation_request/consultation_request.dart';
 import 'package:adaroapp_admin_panel/features/media/media.dart';
 import 'package:adaroapp_admin_panel/features/personalization/screens/profile/profile.dart';
 import 'package:adaroapp_admin_panel/features/personalization/screens/settings/settings.dart';
@@ -45,6 +46,8 @@ class TAppRoute {
 
     GetPage(name: TRoutes.profile, page: () => const ProfileScreen(), middlewares: [TRouteMiddleware()]),
     GetPage(name: TRoutes.settings, page: () => const SettingsScreen(), middlewares: [TRouteMiddleware()]),
+
+    GetPage(name: TRoutes.consultationRequest, page: () => const ConsultationRequestsScreen(), middlewares: [TRouteMiddleware()]),
 
 
   ];

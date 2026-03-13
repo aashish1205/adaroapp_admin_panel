@@ -14,6 +14,7 @@ class TRoutes {
     orders,
     settings,
     profile,
+    consultationRequest,
   ];
 
 
@@ -47,5 +48,7 @@ class TRoutes {
   static const coupons = '/coupons';
   static const settings = '/settings';
   static const profile = '/profile';
+
+  static const consultationRequest = '/consultationRequest';
 
 }
