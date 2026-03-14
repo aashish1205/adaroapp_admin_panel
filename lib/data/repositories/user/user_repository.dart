@@ -2,6 +2,7 @@
 import 'package:adaroapp_admin_panel/data/repositories/authentication/authentication_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
@@ -30,6 +31,43 @@ class UserRepository extends GetxController {
       throw TPlatformException(e.code).message;
     } catch (e) {
       throw 'Something went wrong. Please try again';
+    }
+  }
+
+  /// Function to fetch user details based on user ID.
+  Future<List<UserModel>> getAllUsers() async {
+    try {
+      final querySnapshot = await _db.collection("Users").orderBy('FirstName').get();
+      return querySnapshot.docs.map((doc) => UserModel.fromSnapshot(doc)).toList();
+    } on FirebaseAuthException catch (e) {
+      throw TFirebaseAuthException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      if (kDebugMode) print('Something Went Wrong: $e');
+      throw 'Something Went Wrong: $e';
+    }
+  }
+  /// Function to fetch user details based on user ID.
+  Future<UserModel> fetchUserDetails (String id) async {
+    try {
+      final documentSnapshot = await _db.collection("Users").doc(id).get();
+      if (documentSnapshot.exists) {
+        return UserModel.fromSnapshot(documentSnapshot);
+      } else {
+        return UserModel.empty();
+      }
+    } on FirebaseAuthException catch (e) {
+      throw TFirebaseAuthException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      if (kDebugMode) print('Something Went Wrong: $e');
+      throw 'Something Went Wrong: $e';
     }
   }
 

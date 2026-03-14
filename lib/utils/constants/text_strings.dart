@@ -3,7 +3,7 @@
 class TTexts {
 
   // -- Admin Default Credentials
-  static const String adminEmail = "test@aashish.com";
+  static const String adminEmail = "test@admin.com";
   static const String adminPassword = "Admin@123";
 
   // -- Storage Paths
@@ -18,7 +18,7 @@ class TTexts {
   static const String skip = "Skip";
   static const String done = "Done";
   static const String submit = "Submit";
-  static const String appName = "T Store";
+  static const String appName = "Adaro App Admin Panel";
   static const String tContinue = "Continue";
 
 

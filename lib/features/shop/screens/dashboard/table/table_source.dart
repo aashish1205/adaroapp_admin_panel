@@ -9,16 +9,18 @@ import 'package:get/get.dart';
 import '../../../../../routes/routes.dart';
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/sizes.dart';
+import '../../../controllers/order/order_controller.dart';
 
 class OrderRows extends DataTableSource {
+  final controller = OrderController.instance;
 
   @override
   DataRow? getRow(int index) {
-    final order = DashboardController.orders[index];
+    final order = controller.filteredItems[index];
     return DataRow2(
-      onTap: () => Get.toNamed(TRoutes.orderDetails, arguments: order),
-        selected: false,
-        onSelectChanged: (value){},
+      onTap: () => Get.toNamed(TRoutes.orderDetails, arguments: order, parameters: {'orderId' : order.id}),
+        selected: controller.selectedRows[index],
+        onSelectChanged: (value) => controller.selectedRows[index] = value ?? false,
         cells: [
       DataCell(
         Text(
@@ -27,7 +29,7 @@ class OrderRows extends DataTableSource {
         )
       ),
       DataCell(Text(order.formattedOrderDate)),
-      DataCell(Text('5 Items')),
+      DataCell(Text('${order.items.length} Items')),
       DataCell(
         TRoundedContainer(
           radius: TSizes.cardRadiusSm,
@@ -46,8 +48,8 @@ class OrderRows extends DataTableSource {
         TTableActionButtons(
           view: true,
           edit: false,
-          onViewPressed: () => Get.toNamed(TRoutes.orderDetails, arguments: order,),
-          onDeletePressed: () {},
+          onViewPressed: () => Get.toNamed(TRoutes.orderDetails, arguments: order, parameters: {'orderId' : order.id}),
+          onDeletePressed: () => controller.confirmAndDeleteItem(order),
         )
       ),
     ]);
@@ -57,9 +59,9 @@ class OrderRows extends DataTableSource {
   bool get isRowCountApproximate => false;
 
   @override
-  int get rowCount => DashboardController.orders.length;
+  int get rowCount => controller.filteredItems.length;
 
   @override
-  int get selectedRowCount => 0;
+  int get selectedRowCount => controller.selectedRows.where((selected) => selected).length;
 
 }

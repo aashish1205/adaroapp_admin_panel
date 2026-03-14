@@ -88,6 +88,8 @@ abstract class TBaseController<T> extends GetxController {
 
     if (itemIndex != -1) allItems[itemIndex] = item;
     if (filteredItemIndex != -1) filteredItems[itemIndex] = item;
+
+    filteredItems.refresh();
   }
 
   /// Method for removing an item from the lists.

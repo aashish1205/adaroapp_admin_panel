@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 import '../../../../../../common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
 import '../../../../../../common/widgets/containers/rounded_container.dart';
+import '../../../../../../common/widgets/loaders/loader_animation.dart';
 import '../../../../../../common/widgets/tables/table_header.dart';
 import '../../../../../../utils/constants/sizes.dart';
+import '../../../../controllers/order/order_controller.dart';
 import '../table/data_table.dart';
 
 class OrdersMobileScreen extends StatelessWidget {
@@ -11,11 +16,12 @@ class OrdersMobileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(OrderController());
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(TSizes.defaultSpace),
-          child: const Column(
+          child:  Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Breadcrumbs
@@ -32,7 +38,12 @@ class OrdersMobileScreen extends StatelessWidget {
                     TTableHeader(showLeftWidget: false),
                     SizedBox(height: TSizes.spaceBtwItems),
                     // Table
-                    OrderTable(),
+                    Obx(() {
+                      // Show Loader
+                      if (controller.isLoading.value) return const TLoaderAnimation();
+
+                      return OrderTable();
+                    }),
                   ],
                 ), // Column
               ), // TRoundedContainer

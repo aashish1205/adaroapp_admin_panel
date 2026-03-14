@@ -70,6 +70,7 @@ flutter:
   #--------------- LOCAL ASSETS ------------------#
   assets:
     - assets/logos/
+    - assets/logos/adaro-logo-black.png
     - assets/images/content/
     - assets/images/animations/
     - assets/icons/payment_methods/

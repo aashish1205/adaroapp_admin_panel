@@ -152,7 +152,7 @@ class DoctorConsultationPanel extends StatefulWidget {
 
 class _DoctorConsultationPanelState extends State<DoctorConsultationPanel> {
 
-  List<Map<String, String>> medicines = [];
+  List<Map<String, TextEditingController>> medicines = [];
 
   final symptomsController = TextEditingController();
   final allergyController = TextEditingController();
@@ -161,10 +161,10 @@ class _DoctorConsultationPanelState extends State<DoctorConsultationPanel> {
   void addMedicine() {
     setState(() {
       medicines.add({
-        "name": "",
-        "dosage": "",
-        "frequency": "",
-        "duration": ""
+        "name": TextEditingController(),
+        "dosage": TextEditingController(),
+        "frequency": TextEditingController(),
+        "duration": TextEditingController(),
       });
     });
   }
@@ -362,41 +362,80 @@ class _DoctorConsultationPanelState extends State<DoctorConsultationPanel> {
           shrinkWrap: true,
           itemCount: medicines.length,
           itemBuilder: (context, index) {
+
+            final med = medicines[index];
+
             return Card(
               child: Padding(
                 padding: const EdgeInsets.all(12),
 
-                child:Row(
+                child: Row(
                   children: [
 
                     Expanded(
                       flex: 3,
-                      child: _medicineField("Medicine"),
+                      child: TextField(
+                        controller: med["name"],
+                        decoration: const InputDecoration(
+                          labelText: "Medicine",
+                        ),
+                      ),
                     ),
 
                     const SizedBox(width: 10),
 
                     Expanded(
                       flex: 2,
-                      child: _medicineField("Dosage"),
+                      child: TextField(
+                        controller: med["dosage"],
+                        decoration: const InputDecoration(
+                          labelText: "Dosage",
+                        ),
+                      ),
                     ),
 
                     const SizedBox(width: 10),
 
                     Expanded(
                       flex: 2,
-                      child: _medicineField("Frequency"),
+                      child: TextField(
+                        controller: med["frequency"],
+                        decoration: const InputDecoration(
+                          labelText: "Frequency",
+                        ),
+                      ),
                     ),
 
                     const SizedBox(width: 10),
 
                     Expanded(
                       flex: 2,
-                      child: _medicineField("Duration"),
+                      child: TextField(
+                        controller: med["duration"],
+                        decoration: const InputDecoration(
+                          labelText: "Duration",
+                        ),
+                      ),
                     ),
+
+                    /// DELETE BUTTON
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.red.shade50,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed: () {
+                          setState(() {
+                            medicines.removeAt(index);
+                          });
+                        },
+                      ),
+                    )
 
                   ],
-                )
+                ),
               ),
             );
           },
@@ -453,10 +492,21 @@ class _DoctorConsultationPanelState extends State<DoctorConsultationPanel> {
 
                     print("STEP 1 → GENERATING PDF");
 
+                    /// STEP 1.5 → CONVERT CONTROLLERS TO TEXT
+                    final formattedMedicines = medicines.map((med) {
+                      return {
+                        "name": med["name"]!.text,
+                        "dosage": med["dosage"]!.text,
+                        "frequency": med["frequency"]!.text,
+                        "duration": med["duration"]!.text,
+                      };
+                    }).toList();
+
+                    /// STEP 2 → GENERATE PDF
                     final pdfBytes = await PrescriptionPdfService.generatePrescription(
                       patientName: widget.data['Name'],
                       symptoms: symptomsController.text,
-                      medicines: medicines,
+                      medicines: formattedMedicines,
                     );
 
                     print("STEP 2 → PDF GENERATED");
@@ -484,12 +534,14 @@ class _DoctorConsultationPanelState extends State<DoctorConsultationPanel> {
 
                     batch.update(globalOrder, {
                       "prescriptionUrl": url,
-                      "prescriptionStatus": "completed"
+                      "prescriptionStatus": "completed",
+                      "medicines": formattedMedicines
                     });
 
                     batch.update(userOrder, {
                       "prescriptionUrl": url,
-                      "prescriptionStatus": "completed"
+                      "prescriptionStatus": "completed",
+                      "medicines": formattedMedicines
                     });
 
                     print("STEP 4 → UPDATING FIRESTORE");

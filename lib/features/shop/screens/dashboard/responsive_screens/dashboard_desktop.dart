@@ -16,7 +16,7 @@ class DashboardDesktopScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(ProductImagesController());
+    //final controller = Get.put(ProductImagesController());
     //final controller = Get.put(DashboardController());
     return Scaffold(
       body: SingleChildScrollView(
@@ -68,7 +68,7 @@ class DashboardDesktopScreen extends StatelessWidget {
                             children: [
                               Text('Recent Orders', style: Theme.of(context).textTheme.headlineSmall),
                               const SizedBox(height: TSizes.spaceBtwSections),
-                              const DashboardOrderTable(),
+                              //const DashboardOrderTable(),
                             ],
                           ),
                         ),

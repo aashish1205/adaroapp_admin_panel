@@ -1,5 +1,8 @@
 import 'package:adaroapp_admin_panel/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
+import 'package:adaroapp_admin_panel/common/widgets/loaders/loader_animation.dart';
+import 'package:adaroapp_admin_panel/features/shop/controllers/order/order_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../../../common/widgets/containers/rounded_container.dart';
 import '../../../../../../common/widgets/tables/table_header.dart';
@@ -11,11 +14,12 @@ class OrdersDesktopScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(OrderController());
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(TSizes.defaultSpace),
-          child: const Column(
+          child:  Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Breadcrumbs
@@ -29,10 +33,19 @@ class OrdersDesktopScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     // Table Header
-                    TTableHeader(showLeftWidget: false),
-                    SizedBox(height: TSizes.spaceBtwItems),
+                    TTableHeader(showLeftWidget: false,
+                    searchController: controller.searchTextController,
+                      searchOnChanged: (query) => controller.searchQuery(query),
+                    ),
+                    const SizedBox(height: TSizes.spaceBtwItems),
+
                     // Table
-                    OrderTable(),
+                    Obx(() {
+                      // Show Loader
+                      if (controller.isLoading.value) return const TLoaderAnimation();
+
+                      return OrderTable();
+                    }),
                   ],
                 ), // Column
               ), // TRoundedContainer
