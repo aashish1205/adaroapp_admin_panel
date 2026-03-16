@@ -15,13 +15,24 @@ class OrderDetailController extends GetxController {
   Rx<OrderModel> order = OrderModel.empty().obs;
   Rx<UserModel> customer = UserModel.empty().obs;
 
+  @override
+  void onInit() {
+    super.onInit();
+    getCustomerOfCurrentOrder();
+  }
+
   /// Load customer orders
   Future<void> getCustomerOfCurrentOrder() async {
     try {
-// Show Loader while loading categories
       loading.value = true;
-// Fetch customer orders & addresses
-      final user = await UserRepository.instance.fetchUserDetails(order.value.userId);
+
+      /// Prevent empty userId call
+      if (order.value.userId.isEmpty) {
+        return;
+      }
+
+      final user =
+      await UserRepository.instance.fetchUserDetails(order.value.userId);
 
       customer.value = user;
     } catch (e) {

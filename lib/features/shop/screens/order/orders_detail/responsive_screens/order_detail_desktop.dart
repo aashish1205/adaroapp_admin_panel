@@ -25,7 +25,7 @@ class OrderDetailDesktopScreen extends StatelessWidget {
             children: [
               // Breadcrumbs
               TBreadCrumbsWithHeading(
-                returnToPreviousScreen: true,
+                returnToPreviousScreen: false,
                 heading: order.id,
                 breadcrumbItems: [TRoutes.orders,'Details'],
               ),

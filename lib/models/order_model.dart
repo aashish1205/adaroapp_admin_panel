@@ -72,7 +72,7 @@ class OrderModel {
       'status': status.toString(),
       'totalAmount': totalAmount,
       'shippingCost': shippingCost,
-      'taxCots': taxCost,
+      'taxCost': taxCost,
       'orderDate': orderDate,
       'paymentMethod': paymentMethod,
       'billingAddress': billingAddress?.toJson(),
@@ -90,6 +90,8 @@ class OrderModel {
       docId: snapshot.id,
       id: data['id'] ?? '',
       userId: data['userId'] ?? '',
+
+
 
       status: data.containsKey('status')
           ? OrderStatus.values.firstWhere(
@@ -119,6 +121,22 @@ class OrderModel {
       deliveryDate: data['deliveryDate'] != null
           ? (data['deliveryDate'] as Timestamp).toDate()
           : null,
+
+      shippingAddress: data.containsKey('Name')
+          ? AddressModel(
+        id: data['Id'] ?? '',
+        name: data['Name'] ?? '',
+        phoneNumber: data['PhoneNumber'] ?? '',
+        street: data['Street'] ?? '',
+        city: data['City'] ?? '',
+        state: data['State'] ?? '',
+        postalCode: data['PostalCode'] ?? '',
+        country: data['Country'] ?? '',
+        selectedAddress: data['SelectedAddress'] ?? false,
+      )
+          : null,
+
+      billingAddress: null,
 
       items: data.containsKey('items')
           ? (data['items'] as List)

@@ -6,12 +6,26 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../../../../../models/order_model.dart';
+
 class OrderDetailScreen extends StatelessWidget {
   const OrderDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final order = Get.arguments;
+
+    final OrderModel? order = Get.arguments;
+    final orderId = Get.parameters['orderId'];
+
+    /// If page refreshes and arguments are lost
+    if (order == null) {
+      return const Scaffold(
+        body: Center(
+          child: Text('Loading order...'),
+        ),
+      );
+    }
+
     return TSiteTemplate(
       desktop: OrderDetailDesktopScreen(order: order),
       tablet: OrderDetailTabletScreen(order: order),

@@ -112,7 +112,7 @@ class OrderItems extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Shipping' , style: Theme.of(context).textTheme.titleLarge),
-                    Text('\₹${TPricingCalculator.calculateShippingCost(subTotal, '')}',
+                    Text('\₹${order.shippingCost.toStringAsFixed(2)}',
                         style: Theme.of(context).textTheme.titleLarge),
                   ],
                 ),
@@ -121,7 +121,7 @@ class OrderItems extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Tax' , style: Theme.of(context).textTheme.titleLarge),
-                    Text('\₹${TPricingCalculator.calculateTax(subTotal, '')}',
+                    Text('\₹${order.taxCost.toStringAsFixed(2)}',
                         style: Theme.of(context).textTheme.titleLarge),
                   ],
                 ),
@@ -132,7 +132,7 @@ class OrderItems extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Total' , style: Theme.of(context).textTheme.titleLarge),
-                    Text('\₹${TPricingCalculator.calculateTotalPrice(subTotal, '')}',
+                    Text('\₹${order.totalAmount.toStringAsFixed(2)}',
                         style: Theme.of(context).textTheme.titleLarge),
                   ],
                 ),

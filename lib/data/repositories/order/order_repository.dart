@@ -24,7 +24,8 @@ class OrderRepository extends GetxController {
       print("Docs found: ${result.docs.length}");
       return result.docs
           .map((doc) => OrderModel.fromSnapshot(doc))
-          .toList();    } on FirebaseException catch (e) {
+          .toList();
+    } on FirebaseException catch (e) {
       throw TFirebaseException(e.code).message;
     } on FormatException catch (_) {
       throw const TFormatException();

@@ -1,5 +1,7 @@
+import 'package:adaroapp_admin_panel/features/shop/controllers/order/order_detail_controller.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import '../../../../../../common/widgets/containers/rounded_container.dart';
 import '../../../../../../common/widgets/images/t_rounded_image.dart';
 import '../../../../../../models/order_model.dart';
@@ -15,6 +17,11 @@ class OrderCustomer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<OrderDetailController>();
+    controller.order.value = order;
+    controller.getCustomerOfCurrentOrder();
+
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -29,32 +36,32 @@ class OrderCustomer extends StatelessWidget {
                   .textTheme
                   .headlineMedium),
               const SizedBox(height: TSizes.spaceBtwSections),
-              Row(
-                  children: [
-                    const TRoundedImage(
-                      padding: 0,
-                      backgroundColor: TColors.primaryBackground,
-                      image: TImages.user,
-                      imageType: ImageType.asset,
-                    ), // TRounded Image
-                    const SizedBox (width: TSizes.spaceBtwItems),
-                    Expanded(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Coding with T', style: Theme
-                              .of(context)
-                              .textTheme
-                              .titleLarge,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1),
-                          const Text('support@codingwitht.com',
-                              overflow: TextOverflow.ellipsis, maxLines: 1),
-                        ],
-                      ), // Column
-                    ) // Expanded
-                  ],
+              Obx(
+                () {
+                  return Row(
+                    children: [
+                      TRoundedImage(
+                        padding: 0,
+                        backgroundColor: TColors.primaryBackground,
+                        image: controller.customer.value.profilePicture.isNotEmpty ? controller.customer.value.profilePicture : TImages.user,
+                        imageType: controller.customer.value.profilePicture.isNotEmpty ? ImageType.network : ImageType.asset,
+                      ), // TRounded Image
+                      const SizedBox (width: TSizes.spaceBtwItems),
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(controller.customer.value.fullName,
+                            style: Theme.of(context).textTheme.titleLarge,overflow:  TextOverflow.ellipsis, maxLines: 1,),
+                            Text(controller.customer.value.email,
+                                overflow: TextOverflow.ellipsis, maxLines: 1),
+                          ],
+                        ), // Column
+                      ) // Expanded
+                    ],
+                  );
+                }
               ), // Row
             ],
           ), // Column
@@ -62,24 +69,27 @@ class OrderCustomer extends StatelessWidget {
         const SizedBox (height: TSizes.spaceBtwSections),
 
         // Contact Info
-        SizedBox(
-          width: double.infinity,
-          child: TRoundedContainer(
-            padding: const EdgeInsets.all(TSizes.defaultSpace),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Contact Person' , style:  Theme.of(context).textTheme.headlineMedium),
-                const SizedBox(height: TSizes.spaceBtwSections),
-                Text('Aashish Gupta' , style: Theme.of(context).textTheme.titleSmall,),
-                const SizedBox(height: TSizes.spaceBtwItems / 2),
-                Text('ag21105@gmail.com' , style:  Theme.of(context).textTheme.titleSmall),
-                const SizedBox(height: TSizes.spaceBtwSections / 2),
-                Text('+91 9076008283' , style: Theme.of(context).textTheme.titleSmall,),
-              ],
+        Obx(
+          () => SizedBox(
+            width: double.infinity,
+            child: TRoundedContainer(
+              padding: const EdgeInsets.all(TSizes.defaultSpace),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Contact Person' , style:  Theme.of(context).textTheme.headlineMedium),
+                  const SizedBox(height: TSizes.spaceBtwSections),
+                  Text(controller.customer.value.fullName, style: Theme.of(context).textTheme.titleSmall,),
+                  const SizedBox(height: TSizes.spaceBtwItems / 2),
+                  Text(controller.customer.value.email, style:  Theme.of(context).textTheme.titleSmall),
+                  const SizedBox(height: TSizes.spaceBtwSections / 2),
+                  Text(controller.customer.value.formattedPhoneNo.isNotEmpty ? controller.customer.value.formattedPhoneNo : '***** *****',
+                    style: Theme.of(context).textTheme.titleSmall,),
+                ],
+              ),
             ),
-          ),
 
+          ),
         ),
         const SizedBox(height: TSizes.spaceBtwSections),
 
@@ -91,18 +101,32 @@ class OrderCustomer extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Shipping Address' , style:  Theme.of(context).textTheme.headlineMedium),
+                Text(
+                  'Shipping Address',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
                 const SizedBox(height: TSizes.spaceBtwSections),
-                Text('Aashish Gupta' , style: Theme.of(context).textTheme.titleSmall,),
+
+                /// Customer Name
+                Text(
+                order.shippingAddress?.name ?? 'No Name',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+
                 const SizedBox(height: TSizes.spaceBtwItems / 2),
-                Text('61 Bridge Street, Kurla(west), Mumbai' , style:  Theme.of(context).textTheme.titleSmall,),
+
+                /// Address
+                Text(
+                  order.shippingAddress?.toString() ?? 'No Address Found',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
               ],
             ),
           ),
         ),
         const SizedBox(height: TSizes.spaceBtwSections),
 
-        // Contact info: Adjust this address as per your needs
+        /// Billing Address
         SizedBox(
           width: double.infinity,
           child: TRoundedContainer(
@@ -110,11 +134,29 @@ class OrderCustomer extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Billing Address' , style:  Theme.of(context).textTheme.headlineMedium),
+                Text(
+                  'Billing Address',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
                 const SizedBox(height: TSizes.spaceBtwSections),
-                Text('Aashish Gupta' , style: Theme.of(context).textTheme.titleSmall,),
+
+                /// Name
+                Text(
+                  order.billingAddressSameAsShipping
+                      ? order.shippingAddress?.name ?? ''
+                      : order.billingAddress?.name ?? '',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+
                 const SizedBox(height: TSizes.spaceBtwItems / 2),
-                Text('61 Bridge Street, Kurla(west), Mumbai' , style:  Theme.of(context).textTheme.titleSmall),
+
+                /// Address
+                Text(
+                  order.billingAddressSameAsShipping
+                      ? order.shippingAddress?.toString() ?? ''
+                      : order.billingAddress?.toString() ?? '',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
               ],
             ),
           ),
