@@ -2,23 +2,38 @@ import 'package:adaroapp_admin_panel/common/widgets/data_table/paginated_data_ta
 import 'package:adaroapp_admin_panel/features/shop/screens/customer/all_customers/table/table_source.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+
+import '../../../../controllers/customer/customer_controller.dart';
 
 class CustomerTable extends StatelessWidget {
   const CustomerTable({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return TPaginatedDataTable(
-      minWidth: 700,
-        columns: const [
-          DataColumn2(label: Text('Customer')),
-          DataColumn2(label: Text('Email')),
-          DataColumn2(label: Text('Phone Number')),
-          DataColumn2(label: Text('Registered')),
-          DataColumn2(label: Text('Action'), fixedWidth: 100),
+    final controller = Get.put(CustomerController());
+    return Obx(
+      () {
+        // Customer & Selected Rows are Hidden => Just to Update theUI => Obx =>[Product Rows]
+        Text(controller.filteredItems.length.toString());
+        Text(controller.selectedRows.length.toString());
 
-        ],
-        source: CustomerRows(),
+       return TPaginatedDataTable(
+          minWidth: 700,
+          sortAscending: controller.sortAscending.value,
+          sortColumnIndex: controller.sortColumnIndex.value,
+          columns: [
+            DataColumn2(label: Text('Customer'), onSort: (columnIndex, ascending) => controller.sortByName(columnIndex, ascending)),
+            DataColumn2(label: Text('Email')),
+            DataColumn2(label: Text('Phone Number')),
+            DataColumn2(label: Text('Registered')),
+            DataColumn2(label: Text('Action'), fixedWidth: 100),
+
+          ],
+          source: CustomerRows(),
+        );
+      },
     );
   }
 }

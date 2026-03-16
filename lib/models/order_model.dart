@@ -2,7 +2,7 @@ import 'package:adaroapp_admin_panel/utils/helpers/helper_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import '../utils/constants/enums.dart';
-import 'address_model.dart';
+import '../features/personalization/models/address_model.dart';
 import 'cart_item_model.dart';
 
 class OrderModel {

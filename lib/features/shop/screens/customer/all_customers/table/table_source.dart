@@ -1,5 +1,6 @@
 import 'package:adaroapp_admin_panel/common/widgets/icons/table_action_icon_buttons.dart';
 import 'package:adaroapp_admin_panel/common/widgets/images/t_rounded_image.dart';
+import 'package:adaroapp_admin_panel/features/shop/controllers/customer/customer_controller.dart';
 import 'package:adaroapp_admin_panel/models/user_model.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +14,11 @@ import '../../../../../../utils/constants/image_strings.dart';
 import '../../../../../../utils/constants/sizes.dart';
 
 class CustomerRows extends DataTableSource {
+  final controller = CustomerController.instance;
+
   @override
   DataRow2 getRow(int index) {
+
     return DataRow2(
         cells: [
           DataCell(

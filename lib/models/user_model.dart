@@ -1,7 +1,9 @@
+import 'package:adaroapp_admin_panel/features/personalization/models/address_model.dart';
 import 'package:adaroapp_admin_panel/utils/formatters/formatter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../utils/constants/enums.dart';
+import 'order_model.dart';
 
 /// Model class representing user data
 class UserModel {
@@ -15,6 +17,8 @@ class UserModel {
   AppRole role;
   DateTime? createdAt;
   DateTime? updatedAt;
+  List<OrderModel>? orders;
+  List<AddressModel>? addresses;
 
   UserModel({
     this.id,
@@ -31,8 +35,11 @@ class UserModel {
 
   /// Helper methods
   String get fullName => '$firstName $lastName';
+
   String get formattedDate => TFormatter.formatDate(createdAt);
+
   String get formattedUpdatedAtDate => TFormatter.formatDate(updatedAt);
+
   String get formattedPhoneNo => TFormatter.formatPhoneNumber(phoneNumber);
 
   /// Static function to create an empty user model.
