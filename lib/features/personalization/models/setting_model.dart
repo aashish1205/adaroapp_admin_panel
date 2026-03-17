@@ -19,4 +19,32 @@ class SettingsModel {
     this.appName = '',
     this.appLogo = '',
   });
+
+  /// Convert model to JSON structure for Storing data in Firebase.
+  Map<String, dynamic> toJson() {
+    return {
+      'taxRate' : taxRate,
+      'shippingCost' : shippingCost,
+      'freeShippingThreshold' : freeShippingThreshold,
+      'appName' : appName,
+      'appLogo' : appLogo,
+    };
+  }
+
+  /// Factory Method to create a SettingsModel from a Firebase document snapshot,
+  factory SettingsModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document) {
+    if (document.data() != null) {
+      final data = document.data()!;
+      return SettingsModel(
+        id: document.id,
+        taxRate: (data['taxRate'] as num?)?.toDouble() ?? 0.0,
+        shippingCost: (data['shippingCost'] as num?)?.toDouble() ?? 0.0,
+        freeShippingThreshold: (data['freeShippingThreshold'] as num ?)?.toDouble() ?? 0.0,
+        appName: data.containsKey('appName') ? data['appName'] ?? '' : '',
+        appLogo: data.containsKey('appLogo') ? data['appLogo']  ?? '' : '',
+      );
+    } else {
+      return SettingsModel();
+    }
+  }
 }

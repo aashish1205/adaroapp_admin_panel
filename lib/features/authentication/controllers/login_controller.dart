@@ -1,6 +1,8 @@
 import 'package:adaroapp_admin_panel/data/repositories/authentication/authentication_repository.dart';
+import 'package:adaroapp_admin_panel/data/repositories/settings/setting_repository.dart';
 import 'package:adaroapp_admin_panel/data/repositories/user/user_repository.dart';
 import 'package:adaroapp_admin_panel/features/authentication/controllers/user_controller.dart';
+import 'package:adaroapp_admin_panel/features/personalization/models/setting_model.dart';
 import 'package:adaroapp_admin_panel/models/user_model.dart';
 import 'package:adaroapp_admin_panel/utils/constants/enums.dart';
 import 'package:adaroapp_admin_panel/utils/helpers/network_manager.dart';
@@ -123,6 +125,10 @@ class LoginController extends GetxController {
           createdAt: DateTime.now(),
         ),
       );
+
+      // Create Settings record in the firestore
+      final settingsRepository = Get.put(SettingsRepository());
+      await settingsRepository.registerSettings(SettingsModel(appLogo: '',appName: 'My App', taxRate: 0,shippingCost: 0));
 
       // Remove Loader
       TFullScreenLoader.stopLoading();
