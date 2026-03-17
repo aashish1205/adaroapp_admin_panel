@@ -1,3 +1,4 @@
+import 'package:adaroapp_admin_panel/features/shop/controllers/customer/customer_detail_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -12,17 +13,16 @@ import '../../../../../../utils/helpers/helper_functions.dart';
 import 'package:data_table_2/data_table_2.dart';
 
 class CustomerOrdersRows extends DataTableSource {
+  final controller = CustomerDetailController.instance;
+
+  
   @override
   DataRow? getRow(int index) {
-    final order = OrderModel(
-      id: 'id',
-      status: OrderStatus.shipped,
-      totalAmount: 235.5,
-      orderDate: DateTime.now(), items: [], shippingCost: 0.0, taxCost: 0.0,
-    );
-    const totalAmount = '2563.5';
+    final order = controller.filteredCustomerOrders[index];
+    final totalAmount = order.items.fold<double>(0, (previousValue, element) => previousValue + element.price);
+
     return DataRow2(
-      selected: false,
+      selected: controller.selectedRows[index],
       onTap: () => Get.toNamed(TRoutes.orderDetails, arguments: order),
       cells: [
         DataCell(
@@ -34,7 +34,7 @@ class CustomerOrdersRows extends DataTableSource {
           ),
         ),
         DataCell(Text(order.formattedOrderDate)),
-        const DataCell(Text('${5} Items')),
+        DataCell(Text('${order.items.length} Items')),
         DataCell(
           TRoundedContainer(
             radius: TSizes.cardRadiusSm,
@@ -53,7 +53,7 @@ class CustomerOrdersRows extends DataTableSource {
             ), // Text
           ), // TRoundedContainer
         ), // DataCell
-        const DataCell(Text('\₹$totalAmount')),
+        DataCell(Text('\₹$totalAmount')),
       ],
     ); // DataRow2
   }
@@ -62,8 +62,8 @@ class CustomerOrdersRows extends DataTableSource {
   bool get isRowCountApproximate => false;
 
   @override
-  int get rowCount => 5;
+  int get rowCount => controller.filteredCustomerOrders.length;
 
   @override
-  int get selectedRowCount => 0;
+  int get selectedRowCount => controller.selectedRows.where((selected) => selected).length;
 }

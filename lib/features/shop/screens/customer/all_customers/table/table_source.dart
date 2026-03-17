@@ -18,17 +18,20 @@ class CustomerRows extends DataTableSource {
 
   @override
   DataRow2 getRow(int index) {
-
+    final customer = controller.filteredItems[index];
     return DataRow2(
+      onTap: () => Get.toNamed(TRoutes.customerDetails, arguments: customer, parameters: {'customerId' : customer.id ?? ''}),
+        selected: controller.selectedRows[index],
+        onSelectChanged: (value) => controller.selectedRows[index] = value ?? false,
         cells: [
           DataCell(
             Row(
               children: [
-                const TRoundedImage(
+                TRoundedImage(
                   width: 50,
                   height: 50,
                   padding: TSizes.sm,
-                  image: TImages.defaultImage,
+                  image: customer.profilePicture,
                   imageType: ImageType.network,
                   borderRadius: TSizes.borderRadiusMd,
                   backgroundColor: TColors.primaryBackground,
@@ -36,7 +39,7 @@ class CustomerRows extends DataTableSource {
                 const SizedBox(width: TSizes.spaceBtwItems),
                 Expanded(
                     child: Text(
-                        'Aashish Gupta',
+                        customer.fullName,
                       style: Theme.of(Get.context!).textTheme.bodyLarge!.apply(color: TColors.primary),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -44,15 +47,15 @@ class CustomerRows extends DataTableSource {
               ],
             )
           ),
-          const DataCell(Text('ag21105@gmail.com')),
-          const DataCell(Text('9076008283')),
-          DataCell(Text(DateTime.now().toString())),
+          DataCell(Text(customer.email)),
+          DataCell(Text(customer.phoneNumber)),
+          DataCell(Text(customer.createdAt == null ? '' : customer.formattedDate)),
           DataCell(
             TTableActionButtons(
               view: true,
               edit: false,
-              onViewPressed: () => Get.toNamed(TRoutes.customerDetails, arguments: UserModel.empty()),
-              onDeletePressed: () {},
+              onViewPressed: () => Get.toNamed(TRoutes.customerDetails, arguments: customer, parameters: {'customerId' : customer.id ?? ''}),
+              onDeletePressed: () =>  controller.confirmAndDeleteItem(customer),
             )
           )
         ]
@@ -63,8 +66,8 @@ class CustomerRows extends DataTableSource {
   bool get isRowCountApproximate => false;
 
   @override
-  int get rowCount => 10;
+  int get rowCount => controller.filteredItems.length;
 
   @override
-  int get selectedRowCount => 0;
+  int get selectedRowCount => controller.selectedRows.where((selected) => selected).length;
 }

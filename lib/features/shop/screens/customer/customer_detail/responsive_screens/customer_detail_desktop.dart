@@ -1,6 +1,9 @@
 import 'package:adaroapp_admin_panel/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
+import 'package:adaroapp_admin_panel/features/shop/controllers/customer/customer_detail_controller.dart';
 import 'package:adaroapp_admin_panel/models/user_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../../../../../../routes/routes.dart';
 import '../../../../../../utils/constants/sizes.dart';
@@ -15,6 +18,8 @@ class CustomerDetailDesktopScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(CustomerDetailController());
+    controller.customer.value = customer;
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -23,10 +28,10 @@ class CustomerDetailDesktopScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Breadcrumbs
-              const TBreadCrumbsWithHeading(
+              TBreadCrumbsWithHeading(
                 returnToPreviousScreen: true,
-                heading: 'Aashish Gupta',
-                breadcrumbItems: [TRoutes.customers, 'Details'],
+                heading: customer.fullName,
+                breadcrumbItems:const [TRoutes.customers, 'Details'],
               ),
               const SizedBox(height: TSizes.spaceBtwSections),
 

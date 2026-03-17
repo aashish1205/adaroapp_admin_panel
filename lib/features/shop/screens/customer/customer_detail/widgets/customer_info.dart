@@ -29,11 +29,11 @@ class CustomerInfo extends StatelessWidget {
           // Personal Info Card
           Row(
             children: [
-              const TRoundedImage(
+              TRoundedImage(
                 padding: 0,
                 backgroundColor: TColors.primaryBackground,
-                image: TImages.user,
-                imageType: ImageType.asset,
+                image: customer.profilePicture.isNotEmpty ? customer.profilePicture : TImages.user,
+                imageType:customer.profilePicture.isNotEmpty ? ImageType.network : ImageType.asset,
               ), // TRounded Image
               const SizedBox(width: TSizes.spaceBtwItems),
               Expanded(
@@ -42,13 +42,13 @@ class CustomerInfo extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Aashish Gupta',
+                      customer.fullName,
                       style: Theme.of(context).textTheme.titleLarge,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                     ),
-                    const Text(
-                      'ag21105@gmail.com',
+                    Text(
+                      customer.email,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                     ),
@@ -65,7 +65,7 @@ class CustomerInfo extends StatelessWidget {
               const SizedBox(width: 120, child: Text('Username')),
               const Text(':'),
               const SizedBox(width: TSizes.spaceBtwItems / 2),
-              Expanded(child: Text('Aashish' , style: Theme.of(context).textTheme.titleMedium)),
+              Expanded(child: Text(customer.userName , style: Theme.of(context).textTheme.titleMedium)),
             ],
           ),
           const SizedBox(height: TSizes.spaceBtwItems),
@@ -83,7 +83,7 @@ class CustomerInfo extends StatelessWidget {
               const SizedBox(width: 120, child: Text('Phone Number')),
               const Text(':'),
               const SizedBox(width: TSizes.spaceBtwItems / 2),
-              Expanded(child: Text('+91 9076008283' , style: Theme.of(context).textTheme.titleMedium)),
+              Expanded(child: Text(customer.phoneNumber , style: Theme.of(context).textTheme.titleMedium)),
             ],
           ),
           const SizedBox(height: TSizes.spaceBtwItems),
