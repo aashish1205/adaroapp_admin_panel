@@ -1,6 +1,8 @@
 import 'package:adaroapp_admin_panel/common/widgets/containers/rounded_container.dart';
+import 'package:adaroapp_admin_panel/features/authentication/controllers/user_controller.dart';
 import 'package:adaroapp_admin_panel/utils/validators/validation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../../utils/constants/sizes.dart';
@@ -10,6 +12,10 @@ class ProfileForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = UserController.instance;
+    controller.firstNameController.text = controller.user.value.firstName;
+    controller.lastNameController.text = controller.user.value.lastName;
+    controller.phoneController.text = controller.user.value.phoneNumber;
     return Column(
       children: [
         TRoundedContainer(
@@ -26,7 +32,9 @@ class ProfileForm extends StatelessWidget {
                   Row(
                     children: [
                       // First Name
-                      Expanded(child: TextFormField(decoration: const InputDecoration(
+                      Expanded(child: TextFormField(
+                        controller: controller.firstNameController,
+                        decoration: const InputDecoration(
                         hintText: 'First Name',
                         label: Text('First Name'),
                         prefixIcon: Icon(Iconsax.user),
@@ -38,6 +46,7 @@ class ProfileForm extends StatelessWidget {
                       // Last Name
                       Expanded(
                           child: TextFormField(
+                            controller: controller.lastNameController,
                             decoration: const InputDecoration(
                               hintText: 'Last Name',
                               label: Text('Last Name'),
@@ -53,7 +62,7 @@ class ProfileForm extends StatelessWidget {
                   // Email and Phone
                   Row(
                     children: [
-                      // First Name
+                      // Email
                       Expanded(child: TextFormField(
                         decoration: const InputDecoration(
                           hintText: 'Email',
@@ -61,11 +70,14 @@ class ProfileForm extends StatelessWidget {
                           prefixIcon: Icon(Iconsax.forward),
                           enabled: false,
                         ),
+                        initialValue: UserController.instance.user.value.email,
                       )
                       ),
                       const SizedBox(width: TSizes.spaceBtwItems),
                       // Last Name
-                      Expanded(child: TextFormField(
+                      Expanded(
+                          child: TextFormField(
+                            controller: controller.phoneController,
                         decoration: const InputDecoration(
                           hintText: 'Phone Number',
                           label: Text('Phone Number'),
@@ -83,7 +95,11 @@ class ProfileForm extends StatelessWidget {
 
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(onPressed: () {}, child: const Text('Update Profile')),
+                child: Obx(
+                        () => ElevatedButton(
+                            onPressed: () => controller.loading.value ? () {} : controller.updateUserInformation(),
+                            child: controller.loading.value ? const CircularProgressIndicator(color: Colors.white, strokeWidth: 2,) :
+                            const Text('Update Profile'))),
               )
             ],
           ),

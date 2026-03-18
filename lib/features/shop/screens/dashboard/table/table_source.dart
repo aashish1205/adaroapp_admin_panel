@@ -16,9 +16,9 @@ class OrderRows extends DataTableSource {
 
   @override
   DataRow? getRow(int index) {
-    final order = controller.filteredItems[index];
+    final order = DashboardController.instance.orderController.filteredItems[index];
     return DataRow2(
-      onTap: () => Get.toNamed(TRoutes.orderDetails, arguments: order, parameters: {'orderId' : order.id}),
+      onTap: () => Get.toNamed(TRoutes.orderDetails, arguments: order,),
         selected: controller.selectedRows[index],
         onSelectChanged: (value) => controller.selectedRows[index] = value ?? false,
         cells: [
@@ -43,15 +43,8 @@ class OrderRows extends DataTableSource {
       ),
       DataCell(Text('₹${order.totalAmount}')),
 
-       // Action Column
-      DataCell(
-        TTableActionButtons(
-          view: true,
-          edit: false,
-          onViewPressed: () => Get.toNamed(TRoutes.orderDetails, arguments: order, parameters: {'orderId' : order.id}),
-          onDeletePressed: () => controller.confirmAndDeleteItem(order),
-        )
-      ),
+
+
     ]);
   }
 

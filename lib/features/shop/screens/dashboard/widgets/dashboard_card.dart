@@ -1,3 +1,4 @@
+import 'package:adaroapp_admin_panel/common/widgets/icons/t_circular_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -16,12 +17,17 @@ class TDashboardCard extends StatelessWidget {
     this.color = TColors.success,
     required this.stats,
     this.onTap,
+    required this.context,
+    required this.headingIcon,
+    required this.headingIconColor,
+    required this.headingIconBgColor,
   });
 
 
+  final BuildContext context;
   final String title, subTitle;
-  final IconData icon;
-  final Color color;
+  final IconData icon, headingIcon;
+  final Color color, headingIconColor, headingIconBgColor;
   final int stats;
   final void Function()? onTap;
 
@@ -33,7 +39,17 @@ class TDashboardCard extends StatelessWidget {
       child: Column(
         children: [
           /// Heading
-          TSectionHeading(title: title, textColor: TColors.textSecondary),
+          Row(
+            children: [
+              TCircularIcon(icon: headingIcon,
+              backgroundColor: headingIconBgColor,
+                color: headingIconColor,
+                size: TSizes.md,
+              ),
+              const SizedBox(width: TSizes.spaceBtwItems),
+              TSectionHeading(title: title, textColor: TColors.textSecondary),
+            ],
+          ),
           SizedBox(height: TSizes.spaceBtwSections),
 
           Row(

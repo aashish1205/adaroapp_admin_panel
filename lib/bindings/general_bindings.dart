@@ -1,3 +1,4 @@
+import 'package:adaroapp_admin_panel/features/personalization/controllers/settings_controller.dart';
 import 'package:adaroapp_admin_panel/features/shop/controllers/order/order_detail_controller.dart';
 import 'package:adaroapp_admin_panel/utils/helpers/network_manager.dart';
 import 'package:get/get.dart';
@@ -18,5 +19,7 @@ class GeneralBindings extends Bindings {
     Get.lazyPut(() => OrderRepository(), fenix: true);
     Get.lazyPut(() => OrderController(), fenix: true);
     Get.lazyPut(() => OrderDetailController(), fenix: true);
+
+    Get.lazyPut(() => SettingsController(), fenix: true);
   }
 }

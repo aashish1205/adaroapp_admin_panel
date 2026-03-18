@@ -2,8 +2,13 @@ import 'package:adaroapp_admin_panel/common/widgets/containers/rounded_container
 import 'package:adaroapp_admin_panel/features/shop/screens/dashboard/widgets/order_status_graph.dart';
 import 'package:adaroapp_admin_panel/features/shop/screens/dashboard/widgets/weekly_sales.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:iconsax/iconsax.dart';
 
 import '../../../../../utils/constants/sizes.dart';
+import '../../../controllers/dashboard/dashboard_controller.dart';
 import '../table/data_table.dart';
 import '../widgets/dashboard_card.dart';
 
@@ -12,6 +17,7 @@ class DashboardTabletScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(DashboardController());
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(padding: EdgeInsets.all(TSizes.defaultSpace),child: Column(
@@ -24,17 +30,65 @@ class DashboardTabletScreen extends StatelessWidget {
             // Cards
             Row(
               children: [
-                Expanded(child: TDashboardCard(title: 'Sales total', subTitle: '₹3650.8', stats: 25)),
-                SizedBox(width: TSizes.spaceBtwItems),
-                Expanded(child: TDashboardCard(title: 'Average Order Value', subTitle: '₹364.0', stats: 15)),
+                Expanded(
+                  child: Obx(
+                        () => TDashboardCard(
+                      headingIcon: Iconsax.note,
+                      headingIconColor: Colors.blue,
+                      headingIconBgColor: Colors.blue.withOpacity(0.1),
+                      context: context,
+                      title: 'Sales total',
+                      subTitle: '\₹${controller.orderController.allItems.fold(0.0, (previousValue, element) => previousValue + element.totalAmount).toStringAsFixed(2)}',
+                      stats: 25,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: TSizes.spaceBtwItems),
+                Expanded(
+                  child: Obx(
+                        () => TDashboardCard(
+                      headingIcon: Iconsax.external_drive,
+                      headingIconColor: Colors.green,
+                      headingIconBgColor: Colors.green.withOpacity(0.1),
+                      context: context,
+                      title: 'Average Order Value',
+                      subTitle: '\₹${(controller.orderController.allItems.fold(0.0, (previousValue, element) => previousValue + element.totalAmount) / controller.orderController.allItems.length).toStringAsFixed(2)}',
+                      stats: 15,
+                    ),
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: TSizes.spaceBtwItems),
             Row(
               children: [
-                Expanded(child: TDashboardCard(title: 'Total Orders', subTitle: '36', stats: 44)),
+                Expanded(
+                  child: Obx(
+                        () => TDashboardCard(
+                      headingIcon: Iconsax.box,
+                      headingIconColor: Colors.deepPurple,
+                      headingIconBgColor: Colors.deepPurple.withOpacity(0.1),
+                      context: context,
+                      title: 'Total Orders',
+                      subTitle: '\₹${controller.orderController.allItems.length}',
+                      stats: 44,
+                    ),
+                  ),
+                ),
                 SizedBox(width: TSizes.spaceBtwItems),
-                Expanded(child: TDashboardCard(title: 'Visitors', subTitle: '501', stats: 2)),
+                Expanded(
+                  child: Obx(
+                        () => TDashboardCard(
+                      headingIcon: Iconsax.user,
+                      headingIconColor: Colors.deepOrange,
+                      headingIconBgColor: Colors.deepOrange.withOpacity(0.1),
+                      context: context,
+                      title: 'Visitors',
+                      subTitle: controller.customerController.allItems.length.toString(),
+                      stats: 2,
+                    ),
+                  ),
+                ),
               ],
             ),
 

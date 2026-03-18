@@ -1,4 +1,6 @@
+import 'package:adaroapp_admin_panel/features/personalization/controllers/settings_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../../common/widgets/containers/rounded_container.dart';
@@ -10,16 +12,23 @@ class SettingsForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = SettingsController.instance;
     return Column(
       children: [
         // App Settings
         TRoundedContainer(
-          padding: const EdgeInsets.symmetric(vertical: TSizes.lg, horizontal: TSizes.md),
+          padding: const EdgeInsets.symmetric(
+            vertical: TSizes.lg,
+            horizontal: TSizes.md,
+          ),
           child: Form(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('App Settings' , style: Theme.of(context).textTheme.headlineSmall),
+                Text(
+                  'App Settings',
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
                 const SizedBox(height: TSizes.spaceBtwSections),
 
                 // App Name
@@ -36,50 +45,64 @@ class SettingsForm extends StatelessWidget {
                 Row(
                   children: [
                     // First Name
-                    Expanded(child: TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: 'Tax %',
-                        label: Text('Tax Rate(%)'),
-                        prefixIcon: Icon(Iconsax.tag),
+                    Expanded(
+                      child: TextFormField(
+                        controller: controller.taxController,
+                        decoration: const InputDecoration(
+                          hintText: 'Tax %',
+                          label: Text('Tax Rate(%)'),
+                          prefixIcon: Icon(Iconsax.tag),
+                        ),
                       ),
-                    )
                     ),
                     const SizedBox(width: TSizes.spaceBtwItems),
 
-                    Expanded(child: TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: 'Shipping Cost',
-                        label: Text('Shipping Cost (\₹)'),
-                        prefixIcon: Icon(Iconsax.ship),
+                    Expanded(
+                      child: TextFormField(
+                        controller: controller.shippingController,
+                        decoration: const InputDecoration(
+                          hintText: 'Shipping Cost',
+                          label: Text('Shipping Cost (\₹)'),
+                          prefixIcon: Icon(Iconsax.ship),
+                        ),
                       ),
-                    )
                     ),
                     const SizedBox(width: TSizes.spaceBtwItems),
                     // Last Name
-                    Expanded(child: TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: 'Free Shipping After (\₹)',
-                        label: Text('Free Shipping Threshold (\₹)'),
-                        prefixIcon: Icon(Iconsax.ship),
+                    Expanded(
+                      child: TextFormField(
+                        controller: controller.freeShippingThresholdController,
+                        decoration: const InputDecoration(
+                          hintText: 'Free Shipping After (\₹)',
+                          label: Text('Free Shipping Threshold (\₹)'),
+                          prefixIcon: Icon(Iconsax.ship),
+                        ),
                       ),
-
-                    )
-                    )
+                    ),
                   ],
                 ),
                 const SizedBox(height: TSizes.spaceBtwSections * 2),
 
                 SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton(onPressed: () {}, child: const Text('Update App Settings')),
+                  child: Obx(
+                    () => ElevatedButton(
+                      onPressed: () => controller.loading.value
+                          ? () {}
+                          : controller.updateSettingInformation(),
+                      child: controller.loading.value
+                          ? const CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            )
+                          : const Text('Update App Settings'),
+                    ),
+                  ),
                 ),
-
-
-
               ],
             ),
           ),
-        )
+        ),
       ],
     );
   }

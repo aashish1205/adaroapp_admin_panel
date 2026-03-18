@@ -1,4 +1,8 @@
+import 'package:adaroapp_admin_panel/features/authentication/controllers/user_controller.dart';
+import 'package:adaroapp_admin_panel/features/personalization/controllers/settings_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../../common/widgets/containers/rounded_container.dart';
@@ -14,6 +18,8 @@ class ImageAndMeta extends StatelessWidget {
 
   @override
   Widget build (BuildContext context) {
+    final controller = Get.put(UserController());
+
     return TRoundedContainer(
       padding: const EdgeInsets.symmetric (vertical: TSizes.lg, horizontal: TSizes.md),
       child: Row(
@@ -21,21 +27,26 @@ class ImageAndMeta extends StatelessWidget {
         children: [
           Column(
             children: [
-// User Image
-              const TImageUploader(
-                right: 10,
-                bottom: 20,
-                left: null,
-                width: 200,
-                height: 200,
-                circular: true,
-                icon: Iconsax.camera,
-                imageType: ImageType.asset,
-                image: TImages.user,
+              // User Image
+              Obx(
+          () => TImageUploader(
+                  right: 10,
+                  bottom: 20,
+                  left: null,
+                  width: 200,
+                  height: 200,
+                  circular: true,
+                  icon: Iconsax.camera,
+                  loading: controller.loading.value,
+                  onIconButtonPressed: () => controller.updateProfilePicture(),
+                  imageType: controller.user.value.profilePicture.isNotEmpty ? ImageType.network : ImageType.asset,
+                  image: controller.user.value.profilePicture.isNotEmpty ? controller.user.value.profilePicture : TImages.user,
+
+                ),
               ), // TImageUploader
               const SizedBox (height: TSizes.spaceBtwItems),
-              Text('Aashish Gupta', style: Theme. of (context).textTheme. headlineLarge),
-              const Text('ag2110478@gmail.com'),
+              Obx(() => Text(controller.user.value.fullName, style: Theme. of (context).textTheme. headlineLarge)),
+              Obx(() => Text(controller.user.value.email)),
               const SizedBox (height: TSizes.spaceBtwSections),
             ],
           ), // Column

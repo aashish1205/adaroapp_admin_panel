@@ -1,44 +1,55 @@
 
+import 'package:adaroapp_admin_panel/features/shop/controllers/customer/customer_controller.dart';
+import 'package:adaroapp_admin_panel/features/shop/controllers/order/order_controller.dart';
+import 'package:adaroapp_admin_panel/features/shop/screens/banner/all_banner/table/base_data_table_controller.dart';
 import 'package:adaroapp_admin_panel/utils/constants/enums.dart';
 import 'package:adaroapp_admin_panel/utils/helpers/helper_functions.dart';
 import 'package:get/get.dart';
 
 import '../../../../models/order_model.dart';
 
-class DashboardController extends GetxController {
+class DashboardController extends TBaseController<OrderModel> {
   static DashboardController get instance => Get.find();
+
+  final orderController = Get.put(OrderController());
+  final customerController = Get.put(CustomerController());
 
   final RxList<double> weeklySales = <double>[].obs;
   final RxMap<OrderStatus, int> orderStatusData = <OrderStatus, int>{}.obs;
   final RxMap<OrderStatus, double> totalAmounts = <OrderStatus, double>{}.obs;
 
 
-  /// ---Order
-  static final List<OrderModel> orders = [
-    OrderModel(id: 'AWT0012', status: OrderStatus.processing, totalAmount: 265, orderDate: DateTime(2026, 2, 8), deliveryDate: DateTime(2026, 2, 8), items: [],shippingCost: 0.0, taxCost: 0.0, ),
-    OrderModel(id: 'AWT0012', status: OrderStatus.processing, totalAmount: 665, orderDate: DateTime(2026, 2, 8), deliveryDate: DateTime(2026, 2, 8), items: [],shippingCost: 0.0, taxCost: 0.0,),
-    OrderModel(id: 'AWT0012', status: OrderStatus.cancelled, totalAmount: 365, orderDate: DateTime(2026, 2, 8), deliveryDate: DateTime(2026, 2, 8), items: [],shippingCost: 0.0, taxCost: 0.0,),
-    OrderModel(id: 'AWT0012', status: OrderStatus.pending, totalAmount: 165, orderDate: DateTime(2026,2, 9), deliveryDate: DateTime(2026, 2, 9), items: [],shippingCost: 0.0, taxCost: 0.0,),
-    OrderModel(id: 'AWT0012', status: OrderStatus.delivered, totalAmount: 465, orderDate: DateTime(2026, 2, 9), deliveryDate: DateTime(2026, 2, 9), items: [],shippingCost: 0.0, taxCost: 0.0,),
-
-  ];
-
-
-
   @override
-  void
-   onInit() {
+  Future<List<OrderModel>> fetchItems() async {
+    // Fetch Orders if Empty
+    if (orderController.allItems.isEmpty) {
+      await orderController.fetchItems();
+    }
+
+    // Fetch Customer if Empty
+    if (customerController.allItems.isEmpty) {
+      await customerController.fetchItems();
+    }
+
+    // Calculate Weekly Sales
     _calculateWeeklySales();
+
+    // Calculate Order Status Counts
     _calculateOrderStatusData();
-    super.onInit();
+
+    return orderController.allItems;
   }
+
+
+
+
 
   // Calculate weekly sales
   void _calculateWeeklySales(){
     // Reset weeklySales to zeros
     weeklySales.value = List<double>.filled(7, 0.0);
 
-    for (var order in orders) {
+    for (var order in orderController.allItems) {
       final DateTime orderWeekStart = THelperFunctions.getStartOfWeek(order.orderDate);
 
       // Check if the order is within the current week
@@ -66,7 +77,7 @@ class DashboardController extends GetxController {
     // Map to store total amount for each status
     totalAmounts.value = {for (var status in OrderStatus.values) status : 0.0 };
 
-    for(var order in orders) {
+    for(var order in orderController.allItems) {
 
       // Count Orders
       final status = order.status;
@@ -93,6 +104,15 @@ class DashboardController extends GetxController {
         return 'Unknown';
     }
   }
+
+  @override
+  bool containsSearchQuery(OrderModel item, String query) => false;
+
+
+  @override
+  Future<void> deleteItem(OrderModel item) async {}
+
+
 
 }
 

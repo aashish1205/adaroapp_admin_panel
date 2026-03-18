@@ -19,6 +19,7 @@ class TCircularImage extends StatelessWidget {
     this.fit = BoxFit.cover,
     this.padding = TSizes.sm,
     this.file,
+    this.margin = false,
   });
 
   final BoxFit? fit;
@@ -29,6 +30,8 @@ class TCircularImage extends StatelessWidget {
   final Color? backgroundColor;
   final Uint8List? memoryImage;
   final double width, height, padding;
+
+  final dynamic margin;
 
   @override
   Widget build(BuildContext context) {

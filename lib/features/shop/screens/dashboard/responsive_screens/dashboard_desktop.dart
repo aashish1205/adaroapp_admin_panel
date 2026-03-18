@@ -6,10 +6,10 @@ import 'package:adaroapp_admin_panel/features/shop/screens/dashboard/widgets/ord
 import 'package:adaroapp_admin_panel/features/shop/screens/dashboard/widgets/weekly_sales.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 
 import '../../../../../utils/constants/sizes.dart';
 import '../widgets/dashboard_card.dart';
-
 
 class DashboardDesktopScreen extends StatelessWidget {
   const DashboardDesktopScreen({super.key});
@@ -17,7 +17,7 @@ class DashboardDesktopScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //final controller = Get.put(ProductImagesController());
-    //final controller = Get.put(DashboardController());
+    final controller = Get.put(DashboardController());
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -25,26 +25,76 @@ class DashboardDesktopScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Heading 
-              Text('Dashboard', style: Theme.of(context).textTheme.headlineLarge),
-             // ElevatedButton(onPressed: () => controller.selectThumbnailImage(), child: const Text('Select Single Image')),
-             // const SizedBox(height: TSizes.spaceBtwSections),
-             // ElevatedButton(onPressed: () => controller.selectMultipleProductImages(), child: const Text('Select Multiple Image')),
+              // Heading
+              Text(
+                'Dashboard',
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
 
-
+              // ElevatedButton(onPressed: () => controller.selectThumbnailImage(), child: const Text('Select Single Image')),
+              // const SizedBox(height: TSizes.spaceBtwSections),
+              // ElevatedButton(onPressed: () => controller.selectMultipleProductImages(), child: const Text('Select Multiple Image')),
               const SizedBox(height: TSizes.spaceBtwSections),
-              
+
               // Cards
               Row(
                 children: [
-                  Expanded(child: TDashboardCard(title: 'Sales total', subTitle: '₹3650.8', stats: 25)),
+                  Expanded(
+                    child: Obx(
+                      () => TDashboardCard(
+                        headingIcon: Iconsax.note,
+                        headingIconColor: Colors.blue,
+                        headingIconBgColor: Colors.blue.withOpacity(0.1),
+                        context: context,
+                        title: 'Sales total',
+                        subTitle: '\₹${controller.orderController.allItems.fold(0.0, (previousValue, element) => previousValue + element.totalAmount).toStringAsFixed(2)}',
+                        stats: 25,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: TSizes.spaceBtwItems),
+                  Expanded(
+                    child: Obx(
+                      () => TDashboardCard(
+                        headingIcon: Iconsax.external_drive,
+                        headingIconColor: Colors.green,
+                        headingIconBgColor: Colors.green.withOpacity(0.1),
+                        context: context,
+                        title: 'Average Order Value',
+                        subTitle: '\₹${(controller.orderController.allItems.fold(0.0, (previousValue, element) => previousValue + element.totalAmount) / controller.orderController.allItems.length).toStringAsFixed(2)}',
+                        stats: 15,
+                      ),
+                    ),
+                  ),
                   SizedBox(width: TSizes.spaceBtwItems),
-                  Expanded(child: TDashboardCard(title: 'Average Order Value', subTitle: '₹364.0', stats: 15)),
-                  SizedBox(width: TSizes.spaceBtwItems),
-                  Expanded(child: TDashboardCard(title: 'Total Orders', subTitle: '36', stats: 44)),
-                  SizedBox(width: TSizes.spaceBtwItems),
-                  Expanded(child: TDashboardCard(title: 'Visitors', subTitle: '501', stats: 2)),
 
+                  Expanded(
+                    child: Obx(
+                      () => TDashboardCard(
+                        headingIcon: Iconsax.box,
+                        headingIconColor: Colors.deepPurple,
+                        headingIconBgColor: Colors.deepPurple.withOpacity(0.1),
+                        context: context,
+                        title: 'Total Orders',
+                        subTitle: controller.orderController.allItems.length.toString(),
+                        stats: 44,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: TSizes.spaceBtwItems),
+                  Expanded(
+                    child: Obx(
+                          () => TDashboardCard(
+                            headingIcon: Iconsax.user,
+                            headingIconColor: Colors.deepOrange,
+                            headingIconBgColor: Colors.deepOrange.withOpacity(0.1),
+                            context: context,
+                        title: 'Visitors',
+                        subTitle: controller.customerController.allItems.length.toString(),
+                        stats: 2,
+                      ),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: TSizes.spaceBtwSections),
@@ -66,14 +116,17 @@ class DashboardDesktopScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Recent Orders', style: Theme.of(context).textTheme.headlineSmall),
+                              Text(
+                                'Recent Orders',
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.headlineSmall,
+                              ),
                               const SizedBox(height: TSizes.spaceBtwSections),
-                              //const DashboardOrderTable(),
+                              const DashboardOrderTable(),
                             ],
                           ),
                         ),
-
-
                       ],
                     ),
                   ),
@@ -82,25 +135,11 @@ class DashboardDesktopScreen extends StatelessWidget {
                   /// Pie Chart
                   const Expanded(child: OrderStatusPieChart()),
                 ],
-              )
+              ),
             ],
           ),
         ),
       ),
     );
   }
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
