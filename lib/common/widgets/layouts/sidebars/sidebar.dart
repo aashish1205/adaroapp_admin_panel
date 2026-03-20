@@ -65,6 +65,8 @@ class TSidebar extends StatelessWidget {
                   const TMenuItem(route: TRoutes.customers, icon: Iconsax.profile_2user, itemName: 'Customers'),
                   const TMenuItem(route: TRoutes.orders, icon: Iconsax.box, itemName: 'Orders'),
 
+                  const TMenuItem(route: TRoutes.doctorsApproval, icon: Iconsax.element_plus, itemName: 'Doctors', ),
+
                   const TMenuItem(route: TRoutes.consultationRequest, icon: Iconsax.cloud_plus, itemName: 'Doctor Consultation'),
 
                   // Other Menu Items

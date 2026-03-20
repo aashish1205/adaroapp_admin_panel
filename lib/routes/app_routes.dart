@@ -1,5 +1,6 @@
 
 
+import 'package:adaroapp_admin_panel/doctordashboard/screens/doctor_dashboard/doctor_dashboard.dart';
 import 'package:adaroapp_admin_panel/features/authentication/screens/forget_password/forget_password.dart';
 import 'package:adaroapp_admin_panel/features/authentication/screens/reset_password/reset_password.dart';
 import 'package:adaroapp_admin_panel/features/consultation/consultation_request/consultation_request.dart';
@@ -8,6 +9,7 @@ import 'package:adaroapp_admin_panel/features/personalization/screens/profile/pr
 import 'package:adaroapp_admin_panel/features/personalization/screens/settings/settings.dart';
 import 'package:adaroapp_admin_panel/features/shop/screens/customer/all_customers/customers.dart';
 import 'package:adaroapp_admin_panel/features/shop/screens/customer/customer_detail/customer_detail.dart';
+import 'package:adaroapp_admin_panel/features/shop/screens/doctors/all_doctors/doctors_screen.dart';
 import 'package:adaroapp_admin_panel/features/shop/screens/order/all_orders/orders.dart';
 import 'package:adaroapp_admin_panel/features/shop/screens/order/orders_detail/order_detail.dart';
 import 'package:adaroapp_admin_panel/routes/routes.dart';
@@ -15,6 +17,8 @@ import 'package:adaroapp_admin_panel/routes/routes_middleware.dart';
 
 import 'package:get/get.dart';
 
+import '../doctordashboard/authentication/login/doctor_login.dart';
+import '../doctordashboard/authentication/register/doctor_register.dart';
 import '../features/authentication/screens/login/login.dart';
 
 import '../features/shop/screens/banner/all_banner/banners.dart';
@@ -25,6 +29,7 @@ import '../features/shop/screens/dashboard/dashboard_screen.dart';
 
 class TAppRoute {
   static final List<GetPage> pages =[
+    // Admin LOgin
     GetPage(name: TRoutes.login, page: () => const LoginScreen()),
     GetPage(name: TRoutes.forgetPassword, page: () => const ForgetPasswordScreen()),
     GetPage(name: TRoutes.resetPassword, page: () => const ResetPasswordScreen()),
@@ -48,6 +53,16 @@ class TAppRoute {
     GetPage(name: TRoutes.settings, page: () => const SettingsScreen(), middlewares: [TRouteMiddleware()]),
 
     GetPage(name: TRoutes.consultationRequest, page: () => const ConsultationRequestsScreen(), middlewares: [TRouteMiddleware()]),
+
+
+    // Doctor Screens Logic
+    GetPage(name: TRoutes.doctorLogin, page: () => DoctorLoginScreen()),
+
+    GetPage(name: TRoutes.doctorRegister, page: () => DoctorRegisterScreen()),
+
+    GetPage(name: TRoutes.doctorDashboard, page: () => DoctorDashboardScreen(),middlewares: [TRouteMiddleware()]),
+
+    GetPage(name: TRoutes.doctorsApproval, page: () => DoctorsScreen(),middlewares: [TRouteMiddleware()]),
 
 
   ];

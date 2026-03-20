@@ -51,4 +51,12 @@ class TRoutes {
 
   static const consultationRequest = '/consultationRequest';
 
+  static const doctorsApproval = '/doctorsApproval';
+
+  /// Doctor Dashboard
+  // Doctor
+  static const doctorLogin = '/doctor-login';
+  static const doctorRegister = '/doctor-register';
+  static const doctorDashboard = '/doctor-dashboard';
+
 }

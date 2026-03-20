@@ -19,6 +19,8 @@ class UserModel {
   DateTime? updatedAt;
   List<OrderModel>? orders;
   List<AddressModel>? addresses;
+  bool isApproved;
+  String specialization;
 
   UserModel({
     this.id,
@@ -31,6 +33,8 @@ class UserModel {
     this.role = AppRole.user,
     this.createdAt,
     this.updatedAt,
+    this.isApproved = true, // default for admin/users
+    this.specialization = '',
   });
 
   /// Helper methods
@@ -57,6 +61,10 @@ class UserModel {
       'Role' : role.name.toString(),
       'CreatedAt' : createdAt,
       'UpdatedAt' : updatedAt =  DateTime.now(),
+
+      // 🔥 NEW FIELDS
+      'isApproved': isApproved,
+      'specialization': specialization,
     };
   }
 
@@ -72,8 +80,14 @@ class UserModel {
         email: data.containsKey('Email') ? data['Email'] ?? '' : '',
         phoneNumber: data.containsKey('PhoneNumber') ? data ['PhoneNumber'] ?? '' : '',
         profilePicture: data.containsKey('ProfilePicture') ? data ['ProfilePicture'] ?? '' : '',
-        role: data.containsKey('Role') ? (data['Role'] ?? AppRole.user) == AppRole.admin.name.toString() ? AppRole.admin : AppRole.user: AppRole.user,
-        createdAt: data.containsKey('CreatedAt') ? data ['CreatedAt']?.toDate() ?? DateTime.now() : DateTime.now(),
+// 🔥 ROLE FIX (IMPORTANT)
+        role: data.containsKey('Role')
+            ? data['Role'] == 'admin'
+            ? AppRole.admin
+            : data['Role'] == 'doctor'
+            ? AppRole.doctor
+            : AppRole.user
+            : AppRole.user,        createdAt: data.containsKey('CreatedAt') ? data ['CreatedAt']?.toDate() ?? DateTime.now() : DateTime.now(),
         updatedAt: data.containsKey('UpdatedAt') ? data ['UpdatedAt']?.toDate() ?? DateTime.now() : DateTime.now(),
       );
     } else {

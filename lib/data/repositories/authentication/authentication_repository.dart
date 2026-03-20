@@ -107,6 +107,8 @@ class AuthenticationRepository extends GetxController {
     }
   }
 
+  Future<void> registerDoctor({required String name, required String email, required String password, required String specialization}) async {}
+
 
   // Delete User
 }
