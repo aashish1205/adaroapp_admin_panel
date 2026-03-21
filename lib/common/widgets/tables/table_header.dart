@@ -10,6 +10,7 @@ class TTableHeader extends StatelessWidget {
     this.searchController,
     this.searchOnChanged,
     this.showLeftWidget = true,
+    this.leftWidget,
   });
 
 
@@ -19,6 +20,8 @@ class TTableHeader extends StatelessWidget {
   final bool showLeftWidget;
   final TextEditingController? searchController;
   final Function(String)? searchOnChanged;
+
+  final dynamic leftWidget;
 
   @override
   Widget build(BuildContext context) {

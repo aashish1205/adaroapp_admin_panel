@@ -7,16 +7,16 @@ import '../../../../controllers/doctors/doctors_controller.dart';
 import 'package:data_table_2/data_table_2.dart';
 
 class DoctorsTable extends StatelessWidget {
-  final String status;
 
-  const DoctorsTable({super.key, required this.status});
+
+  const DoctorsTable({super.key, });
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<DoctorsController>();
 
     return Obx(() {
-      final doctors = controller.getDoctorsByStatus(status);
+      final doctors = controller.filteredDoctors;
 
       if (doctors.isEmpty) {
         return const Center(child: Text("No Doctors Found"));
@@ -51,28 +51,27 @@ class DoctorsTable extends StatelessWidget {
 
               // Actions
               DataCell(Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
 
-                  if (status == 'pending') ...[
+                  if (doc['isApproved'] == false && (doc['isRejected'] ?? false) == false) ...[
                     IconButton(
                       icon: const Icon(Icons.check, color: Colors.green),
-                      onPressed: () =>
-                          controller.approveDoctor(doc.id),
+                      onPressed: () => controller.approveDoctor(doc.id),
                     ),
                     IconButton(
                       icon: const Icon(Icons.close, color: Colors.red),
-                      onPressed: () =>
-                          controller.rejectDoctor(doc.id),
+                      onPressed: () => controller.rejectDoctor(doc.id),
                     ),
                   ],
 
-                  if (status == 'approved')
+                  if (doc['isApproved'] == true)
                     const Icon(Icons.verified, color: Colors.green),
 
-                  if (status == 'rejected')
+                  if ((doc['isRejected'] ?? false) == true)
                     const Icon(Icons.block, color: Colors.red),
                 ],
-              )),
+              ))
             ]);
           }).toList(),
         ),
@@ -82,11 +81,43 @@ class DoctorsTable extends StatelessWidget {
 
   Widget _statusWidget(dynamic doc) {
     if (doc['isApproved'] == true) {
-      return const Text("Approved", style: TextStyle(color: Colors.green));
+      return _buildBadge("Approved", Colors.green);
     }
     if ((doc['isRejected'] ?? false) == true) {
-      return const Text("Rejected", style: TextStyle(color: Colors.red));
+      return _buildBadge("Rejected", Colors.red);
     }
-    return const Text("Pending", style: TextStyle(color: Colors.orange));
+    return _buildBadge("Pending", Colors.orange);
+  }
+
+  Widget _buildBadge(String text, Color color) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(color: color, fontWeight: FontWeight.w500),
+      ),
+    );
+  }
+
+  void _confirmAction(BuildContext context,
+      {required String title,
+        required String message,
+        required VoidCallback onConfirm}) {
+
+    Get.defaultDialog(
+      title: title,
+      middleText: message,
+      textCancel: "Cancel",
+      textConfirm: "Yes",
+      confirmTextColor: Colors.white,
+      onConfirm: () {
+        Get.back();
+        onConfirm();
+      },
+    );
   }
 }
